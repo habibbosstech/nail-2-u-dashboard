@@ -1,17 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
-import { reducers } from "./redux/reducers";
-
+import {Provider} from "react-redux";
+import {store, persistor} from "./redux/store";
 import App from "./App";
-const store = createStore(reducers, compose(applyMiddleware(thunk)));
+import {PersistGate} from "redux-persist/integration/react";
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './toast.css';
+
 ReactDOM.render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>,
-  document.getElementById("root")
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <React.StrictMode>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
+                <App/>
+            </React.StrictMode>
+        </PersistGate>
+    </Provider>,
+
+    document.getElementById("root")
 );

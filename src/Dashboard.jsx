@@ -14,65 +14,73 @@ import Artists from "./pages/users/Artists";
 import Pcustomers from "./pages/payment/Pcustomers";
 import Partists from "./pages/payment/Partists";
 import ArtistProfile from "./pages/users/ArtistProfile";
+import Login from "./pages/auth/Login";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import CustomerProfile from "./pages/users/CustomerProfile";
 import AdminProfile from "./pages/admin/AdminProfile";
 
+
+//layouts
+import {LayoutLogin, LayoutBasic} from './layouts/layout';
+
+
+
 export default function Dashborad() {
-  return (
-    <Router>
-      <Topbar />
-      <div className="container-flex">
-        <Sidebar />
-        <Switch>
-          <Route exact path="/dashboard">
-            <Home />
-          </Route>
-          <Route exact path="/dashboard/customers">
-            <Customers />
-          </Route>
-          <Route exact path="/dashboard/customers/customer-profile">
-            <CustomerProfile />
-          </Route>
-          <Route exact path="/dashboard/artists">
-            <Artists />
-          </Route>
-          <Route exact path="/dashboard/artists/artist-profile">
-            <ArtistProfile />
-          </Route>
-          <Route path="/dashboard/booking">
-            <Booking />
-          </Route>
-          <Route path="/dashboard/daily-deals">
-            <DailyDeal />
-          </Route>
-          <Route path="/dashboard/all-services">
-            <AllServices />
-          </Route>
-          <Route path="/dashboard/payments/customers">
-            <Pcustomers />
-          </Route>
-          <Route path="/dashboard/payments/artists">
-            <Partists />
-          </Route>
-          <Route path="/dashboard/team">
-            <Team />
-          </Route>
-          <Route path="/dashboard/chat">
-            <Chat />
-          </Route>
-          <Route exact path="/dashboard/admin">
-            <Admin />
-          </Route>
-          <Route exact path="/dashboard/admin/admin-profile">
-            <AdminProfile />
-          </Route>
-          <Route path="/dashboard/setting">
-            <Setting />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <Switch>
+                <Route exact path="/login"
+                       render={() => <LayoutLogin><Login/></LayoutLogin>}
+                />
+                <Route exact path="/dashboard"
+                       render={() => <LayoutBasic><Home/></LayoutBasic>}
+                />
+                <Route exact path="/dashboard/customers"
+                       render={() => <LayoutBasic><Customers/></LayoutBasic>}
+                />
+                <Route exact path="/dashboard/customers/customer-profile"
+                       render={() => <LayoutBasic><CustomerProfile/></LayoutBasic>}
+                />
+                <Route exact path="/dashboard/artists"
+                       render={() => <LayoutBasic><Artists/></LayoutBasic>}
+                />
+
+                <Route exact path="/dashboard/artists/artist-profile"
+                render={() => <LayoutBasic><ArtistProfile/></LayoutBasic>}
+                />
+                <Route path="/dashboard/booking"
+                render={() => <LayoutBasic><Booking/></LayoutBasic>}
+                />
+                <Route path="/dashboard/daily-deals"
+                render={() => <LayoutBasic><DailyDeal/></LayoutBasic>}
+                />
+                <Route path="/dashboard/all-services"
+                render={() => <LayoutBasic><AllServices/></LayoutBasic>}
+                />
+                <Route path="/dashboard/payments/customers"
+                render={() => <LayoutBasic><Pcustomers/></LayoutBasic>}
+                />
+                <Route path="/dashboard/payments/artists"
+                render={() => <LayoutBasic><Partists/></LayoutBasic>}
+                />
+                <Route path="/dashboard/team"
+                render={() => <LayoutBasic><Team/></LayoutBasic>}
+                />
+                <Route path="/dashboard/chat"
+                render={() => <LayoutBasic><Chat/></LayoutBasic>}
+                />
+                <Route exact path="/dashboard/admin"
+                render={() => <LayoutBasic><Admin/></LayoutBasic>}
+                />
+                <Route exact path="/dashboard/admin/admin-profile"
+                render={() => <LayoutBasic><AdminProfile/></LayoutBasic>}
+                />
+                <Route path="/dashboard/setting"
+                render={() => <LayoutBasic><Setting/></LayoutBasic>}
+                />
+            </Switch>
+        </Router>
+    );
 }

@@ -1,6 +1,9 @@
-import { combineReducers } from "redux";
-import reducer1 from "./yourReducerName";
+import {combineReducers} from "redux";
+import auth from "./auth";
+import dashboard from "./dashboard";
+//import message from "./message";
 
-export const reducers = combineReducers({
-  reducer1,
+export default combineReducers({
+    auth, dashboard
+    //message,
 });

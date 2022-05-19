@@ -7,8 +7,11 @@ import bellIcon from "../topbar/bell.svg";
 import logo from "../topbar/logo.svg";
 
 import { NavLink } from "react-router-dom";
+import {useSelector} from "react-redux";
 
 export default function Topbar() {
+
+  const state = useSelector((state) => state);
   const resume = null;
   const message = null;
   const notification = null;
@@ -22,7 +25,7 @@ export default function Topbar() {
           </NavLink>
           <img src={profilepic} alt="" className="topAvatar" />
           <div className="welcome-text">
-            <span className="welcome">Welcome Back , John Doe</span>
+            <span className="welcome">Welcome Back , {state.auth.user.username}</span>
             <br />
             <span className="insights">Today’s insights for you</span>
           </div>
