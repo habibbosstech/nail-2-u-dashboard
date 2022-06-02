@@ -52,7 +52,7 @@ export default function Login() {
                             <button onClick={handleSubmit} type="button" className="btn btn-login">
                                 {submitted ? <SpinnerLoader/> : "Login"}
                             </button>
-                            {state.auth.isAuthenticated ? <div style={{color: "red"}}>Login Successfully</div> : <div style={{color: "red"}}>ERROR</div>}
+                            {(state.auth.isAuthenticated) ? <div style={{color: "red"}}>Login Successfully</div> : ""}
                         </div>
                     </form>
                 </div>

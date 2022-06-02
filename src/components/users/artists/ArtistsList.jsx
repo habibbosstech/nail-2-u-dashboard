@@ -8,7 +8,7 @@ import ArtistCard from "../../system-component/artistCard";
 import SpinnerLoader from "../../loaders/Spiner";
 
 
-const getData = (data)=>{
+const getData = (data) => {
     let dateInstance = new Date(data);
     return dateInstance.getFullYear();
 }
@@ -21,12 +21,16 @@ export default function ArtistsList() {
     const [artistLoader, setArtistLoader] = useState('');
 
     useEffect(() => {
+        getAllArtists();
+    }, []);
+
+    const getAllArtists = () => {
         setArtistLoader(false);
         dispatch(getAllArtist()).then((res) => {
             setResponse(res.data.records)
             setArtistLoader(true)
         })
-    }, [])
+    }
 
 
     return (
@@ -53,7 +57,7 @@ export default function ArtistsList() {
                     <div className="artist-card-body pl-4">
                         {
                             artistLoader ?
-                                response.map(artist => {
+                                response.map((artist, key) => {
                                     return (
                                         <ArtistCard
                                             artistId={artist.id}
@@ -63,6 +67,7 @@ export default function ArtistsList() {
                                             profileImage={artist.absolute_image_url}
                                             workingSince={getData(artist.created_at)}
                                             rating={artist.avg_rating}
+                                            getAllArtist={getAllArtists}
                                         />
                                     )
                                 })

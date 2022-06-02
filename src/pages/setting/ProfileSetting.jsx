@@ -1,24 +1,28 @@
 import React from "react";
-import propic from "../setting/propic.png";
+import {useSelector} from "react-redux";
+import {useForm} from "react-hook-form";
+
+
 export default function ProfileSetting() {
+
+  const state = useSelector((state) => state);
+    const {register, formState: {errors}, handleSubmit} = useForm();
+    const onSubmit = data => console.log(data);
+
+
   return (
     <div>
-      {/* template */}
       <div className="">
-        {/* card */}
         <div className="card card-outline-secondary">
-          {/* heading */}
           <div className="card-header">
             <h3 className=" mb-0 ">Profile Settings</h3>
           </div>
-          {/* body */}
           <div>
-            <form style={{ display: "flex" }}>
+            <form style={{ display: "flex" }} onSubmit={handleSubmit(onSubmit)}>
               <div className="setting-image-profile p-3 m-3">
                 <p>Change Profile Picture</p>
-                <img src={propic} alt="" />
+                <img src={state.auth.user.absolute_image_url} alt="" />
                 <div className="circle-div-setting">
-                  {/* demo start */}
                   <div className="image-upload-setting mt-3">
                     {" "}
                     <label htmlFor="file_upload-setting">
@@ -42,7 +46,6 @@ export default function ProfileSetting() {
                       />
                     </label>{" "}
                   </div>
-                  {/* demo end */}
                 </div>
               </div>
               <div>
@@ -53,8 +56,11 @@ export default function ProfileSetting() {
                       type="text"
                       className="form-control"
                       id="name"
-                      placeholder="shailnay"
+                      placeholder="name"
+                      //value={state.auth.user.username}
+                      {...register("userName", {required: true, maxLength: 20})}
                     />
+                      {errors.userName && "First name is required"}
                   </div>
                   <div className="form-group col-md-5">
                     <label htmlFor="username">User Name</label>
@@ -62,7 +68,8 @@ export default function ProfileSetting() {
                       type="text"
                       className="form-control"
                       id="CardNumber"
-                      placeholder="shailnay cordway"
+                      placeholder="username"
+                      value={state.auth.user.username}
                     />
                   </div>
                 </div>
@@ -74,7 +81,8 @@ export default function ProfileSetting() {
                       type="text"
                       className="form-control"
                       id="contact"
-                      placeholder="shailnay"
+                      placeholder="no#"
+                      value={state.auth.user.phone_no}
                     />
                   </div>
                   <div className="form-group col-md-5">
@@ -83,7 +91,8 @@ export default function ProfileSetting() {
                       type="text"
                       className="form-control"
                       id="address"
-                      placeholder="shailnay cordway"
+                      placeholder="address"
+                      value={(state.auth.user.address) ? "" : state.auth.user.address}
                     />
                   </div>
                 </div>
@@ -96,6 +105,7 @@ export default function ProfileSetting() {
                       className="form-control"
                       id="email"
                       placeholder="@gmail.com"
+                      value={state.auth.user.email}
                     />
                   </div>
                   <div className="form-group col-md-4">

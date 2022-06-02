@@ -7,15 +7,15 @@ import {PersistGate} from "redux-persist/integration/react";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './toast.css';
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
             <React.StrictMode>
                 <ToastContainer
-                    position="top-center"
-                    autoClose={5000}
-                    hideProgressBar={false}
+                    position="top-right"
+                    // autoClose={5000}
                     newestOnTop={false}
                     closeOnClick
                     rtl={false}

@@ -12,10 +12,10 @@ export const Post = (r, p) => {
     return new Promise(resolve => {
 
         axios.post(APIServices + r, p).then(res => {
-            if (res.data._metadata.httpResponseCode === 401) {
+            if (res.data._metadata.httpResponseCode === 401)
                 resolve(res);
-            }
-            if (res.data._metadata.httpResponseCode === 200) resolve(res);
+            else
+                resolve(res)
         })
     })
 }

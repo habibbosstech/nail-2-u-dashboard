@@ -1,9 +1,12 @@
 import {combineReducers} from "redux";
 import auth from "./auth";
 import dashboard from "./dashboard";
-//import message from "./message";
+import artistProfile from "./artist-profile";
+import setting from "./settings";
 
 export default combineReducers({
-    auth, dashboard
-    //message,
+    auth,
+    dashboard,
+    artistProfile,
+    setting
 });

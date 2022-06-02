@@ -1,8 +1,7 @@
 //import {GET_ALL_ARTIST} from "./types";
 import {Post, SetHeader} from "../api";
 import React from "react";
-import { toast } from 'react-toastify';
-import { CheckmarkCircleOutline } from "react-ionicons";
+import AlertMessage from '../../components/alerts';
 
 export const getAllArtist = () => (dispatch) => {
     SetHeader();
@@ -19,15 +18,21 @@ export const deleteArtist = (payload) => (dispatch) => {
     SetHeader();
     return Post('/artist/delete', payload).then(res => {
         if (res.data._metadata.httpResponseCode === 200) {
-            toast.success( <div>{res.data._metadata.message}
-                <CheckmarkCircleOutline color={"green"} height="25px" width="25px" />
-                <span style={{ fontWeight: "bold", color: "#000" }}>Success</span>
-                {"  "}
-                <span style={{ marginLeft: 5 }}>Default address update</span>
-            </div>);
+            AlertMessage('success', res.data._metadata.message);
             return res;
         } else {
+            AlertMessage('error', res.data._metadata.message);
+        }
+    })
+}
 
+export const getSingleArtist = (payload) => (dispatch) => {
+    SetHeader();
+    return Post('/user/get-user-detail', {id:3}).then(res => {
+        if (res.data._metadata.httpResponseCode === 200) {
+            return res;
+        } else {
+            AlertMessage('error', res.data._metadata.message);
         }
     })
 }

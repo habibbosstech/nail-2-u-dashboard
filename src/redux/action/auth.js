@@ -10,7 +10,7 @@ export const login = (payload) => (dispatch) => {
         if (res.data._metadata.httpResponseCode === 401) {
             dispatch({
                 type: INVALID_CREDENTIALS, body: {
-                    email: res.data
+                email: res.data
                 }
             });
         } else {
