@@ -12,7 +12,7 @@ export default function Login() {
     const [submitted, setSubmitted] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [response, setResponse] = useState("");
+    const [response, setResponse] = useState(false);
     const dispatch = useDispatch();
 
     const [emailError, setEmailError] = useState("");
@@ -52,7 +52,7 @@ export default function Login() {
                             <button onClick={handleSubmit} type="button" className="btn btn-login">
                                 {submitted ? <SpinnerLoader/> : "Login"}
                             </button>
-                            {(state.auth.isAuthenticated) ? <div style={{color: "red"}}>Login Successfully</div> : ""}
+                            {response}
                         </div>
                     </form>
                 </div>
@@ -66,9 +66,11 @@ export default function Login() {
         if (email && password) {
             setSubmitted(true);
             setResponse("")
-            dispatch(login({email, password})).then((response) => {
+            dispatch(login({email, password})).then((r) => {
                 setSubmitted(false);
-                history.push("/dashboard");
+                setResponse(r.data._metadata.message)
+                if (r.data._metadata.httpResponseCode === 200)
+                    history.push("/dashboard");
             })
         }
     }

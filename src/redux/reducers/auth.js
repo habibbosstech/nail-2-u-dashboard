@@ -11,8 +11,12 @@ const loginReducer = (state = "", action) => {
                 errors: {},
             }
 
-        case "WITHDRAW":
-            return state + action.payload;
+        case "INVALID_CREDENTIALS":
+            return {
+                ...state,
+                isAuthenticated: false,
+                errors: action.errors,
+            }
 
         default:
             return state;

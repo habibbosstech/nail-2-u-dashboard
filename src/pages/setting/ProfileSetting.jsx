@@ -6,8 +6,8 @@ import {useForm} from "react-hook-form";
 export default function ProfileSetting() {
 
   const state = useSelector((state) => state);
-    const {register, formState: {errors}, handleSubmit} = useForm();
-    const onSubmit = data => console.log(data);
+  const {register, formState: {errors}, handleSubmit} = useForm();
+  const onSubmit = data => console.log(data);
 
 
   return (
@@ -60,7 +60,7 @@ export default function ProfileSetting() {
                       //value={state.auth.user.username}
                       {...register("userName", {required: true, maxLength: 20})}
                     />
-                      {errors.userName && "First name is required"}
+                      <div className="validation-error">{errors.userName && "First name is required"}</div>
                   </div>
                   <div className="form-group col-md-5">
                     <label htmlFor="username">User Name</label>

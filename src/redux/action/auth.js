@@ -7,18 +7,16 @@ export const login = (payload) => (dispatch) => {
 
     return Post('/auth/login', payload).then(res => {
 
-        if (res.data._metadata.httpResponseCode === 401) {
-            dispatch({
-                type: INVALID_CREDENTIALS, body: {
-                email: res.data
-                }
-            });
-        } else {
+        if (res.data._metadata.httpResponseCode === 200) {
             dispatch({
                 type: SUCCESS_LOGIN, user: res.data.records.user, token: res.data.records.token,
             });
-
+        } else {
+            dispatch({
+                type: INVALID_CREDENTIALS, errors: res.data._metadata.message
+            });
         }
+
         return res;
     })
 }

@@ -80,3 +80,7 @@
 /*.Toastify__toast > button > svg {*/
 /*    display: none;*/
 /*}*/
+.validation-error{
+    color:red;
+    font-size: 13px;
+}

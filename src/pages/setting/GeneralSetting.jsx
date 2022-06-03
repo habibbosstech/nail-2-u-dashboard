@@ -1,19 +1,21 @@
 import React from "react";
+import {useForm} from "react-hook-form";
 
 export default function GeneralSetting() {
+    const {register, formState: {errors}, handleSubmit} = useForm();
+
+    const onSubmit = (data,e) => console.log(data);
+
+
     return (
         <div>
-            {/* template */}
             <div className="">
-                {/* card */}
                 <div className="card card-outline-secondary">
-                    {/* heading */}
                     <div className="card-header">
                         <h3 className=" mb-0 ">General Settings</h3>
                     </div>
-                    {/* body */}
                     <div className="p-3 general-setting-form">
-                        <form>
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="form-row">
                                 <div className="form-group col-md-8">
                                     <label htmlFor="payableAmount">Email Address</label>
@@ -27,13 +29,16 @@ export default function GeneralSetting() {
                                             className="form-control "
                                             id="PayableAmount"
                                             placeholder="tinafox@gmail.com"
+                                            {...register("email", {required: true, maxLength: 20})}
                                         />
-                                        <button className="btn ml-4 ">Save Changes</button>
+                                    </div>
+                                    <div className="validation-error">
+                                        {errors.email && errors.email.type==="required" && "Email is required"}
+                                        {errors.email && errors.email.type==="maxLength" && "Max length is 20"}
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                        <form>
+
                             <div className="form-row pt-4">
                                 <div className="form-group col-md-3">
                                     <label htmlFor="inputsender">Current Password</label>
