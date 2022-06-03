@@ -1,11 +1,29 @@
-import React from "react";
+import React, {useState} from "react";
 import {useForm} from "react-hook-form";
+import {useDispatch, useSelector} from "react-redux";
+import {generalSetting} from "../../redux/action/settings";
+import SpinnerLoader from "../../components/loaders/Spiner";
 
 export default function GeneralSetting() {
+
+    const dispatch = useDispatch();
+    const state = useSelector((state) => state);
+    const [submitted, setSubmitted] = useState(false);
+
     const {register, formState: {errors}, handleSubmit} = useForm();
 
-    const onSubmit = (data,e) => console.log(data);
 
+    const onSubmit = (d, e) => {
+        setSubmitted(true);
+        dispatch(generalSetting({
+            email: d.email,
+            password: d.newPassword,
+            conform_password: d.conformPassword
+        })).then((r) => {
+            setSubmitted(false);
+
+        })
+    };
 
     return (
         <div>
@@ -29,12 +47,13 @@ export default function GeneralSetting() {
                                             className="form-control "
                                             id="PayableAmount"
                                             placeholder="tinafox@gmail.com"
+                                            // value={state.auth.user.email}
                                             {...register("email", {required: true, maxLength: 20})}
                                         />
                                     </div>
                                     <div className="validation-error">
-                                        {errors.email && errors.email.type==="required" && "Email is required"}
-                                        {errors.email && errors.email.type==="maxLength" && "Max length is 20"}
+                                        {errors.email && errors.email.type === "required" && "Email is required"}
+                                        {errors.email && errors.email.type === "maxLength" && "Max length is 20"}
                                     </div>
                                 </div>
                             </div>
@@ -45,28 +64,41 @@ export default function GeneralSetting() {
                                     <input
                                         type="password"
                                         className="form-control"
-                                        id="inputpassword"
+                                        {...register("currentPassword", {required: true, maxLength: 10})}
                                         placeholder="......."
                                     />
+                                    <div className="validation-error">
+                                        {errors.currentPassword && errors.currentPassword.type === "required" && "Current password is required"}
+                                        {errors.currentPassword && errors.currentPassword.type === "maxLength" && "Max length is 10"}
+                                    </div>
                                 </div>
                                 <div className="form-group col-md-3">
                                     <label htmlFor="inputsender">New Password</label>
                                     <input
                                         type="password"
                                         className="form-control"
-                                        id="inputnewpassword"
+                                        {...register("newPassword", {required: true, maxLength: 10})}
                                     />
+                                    <div className="validation-error">
+                                        {errors.newPassword && errors.newPassword.type === "required" && "New password is required"}
+                                        {errors.newPassword && errors.newPassword.type === "maxLength" && "Max length is 10"}
+                                    </div>
                                 </div>
                                 <div className="form-group col-md-3">
                                     <label htmlFor="inputreciever">Confirm Password</label>
                                     <input
                                         type="password"
                                         className="form-control"
-                                        id="inputconfirm"
+                                        {...register("conformPassword", {required: true, maxLength: 10})}
                                     />
+                                    <div className="validation-error">
+                                        {errors.conformPassword && errors.conformPassword.type === "required" && "Conform password is required"}
+                                        {errors.conformPassword && errors.conformPassword.type === "maxLength" && "Max length is 10"}
+                                    </div>
                                 </div>
                                 <div className="form-group col-md-3">
-                                    <button className="btn ml-4 update-btn">update</button>
+                                    <button className="btn ml-4 update-btn">{submitted ?
+                                        <SpinnerLoader/> : "update"}</button>
                                 </div>
                             </div>
                         </form>
