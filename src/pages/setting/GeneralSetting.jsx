@@ -9,17 +9,12 @@ export default function GeneralSetting() {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const [submitted, setSubmitted] = useState(false);
-
     const {register, formState: {errors}, handleSubmit} = useForm();
 
 
     const onSubmit = (d, e) => {
         setSubmitted(true);
-        dispatch(generalSetting({
-            email: d.email,
-            password: d.newPassword,
-            conform_password: d.conformPassword
-        })).then((r) => {
+        dispatch(generalSetting({email: d.email, password: d.newPassword, conform_password: d.conformPassword})).then((r) => {
             setSubmitted(false);
 
         })
@@ -97,8 +92,7 @@ export default function GeneralSetting() {
                                     </div>
                                 </div>
                                 <div className="form-group col-md-3">
-                                    <button className="btn ml-4 update-btn">{submitted ?
-                                        <SpinnerLoader/> : "update"}</button>
+                                    <button className="btn ml-4 update-btn">{submitted ? <SpinnerLoader/> : "update"}</button>
                                 </div>
                             </div>
                         </form>
