@@ -57,7 +57,7 @@ export default function ProfileSetting() {
                                             className="form-control"
                                             id="name"
                                             placeholder="name"
-                                            value={state.auth.user.email}
+                                            defaultValue={state.auth.user.email}
                                             {...register("userName", {required: true, maxLength: 20})}
                                         />
                                         <div
@@ -70,7 +70,7 @@ export default function ProfileSetting() {
                                             className="form-control"
                                             id="CardNumber"
                                             placeholder="username"
-                                            value={state.auth.user.username}
+                                            defaultValue={state.auth.user.username}
                                         />
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@ export default function ProfileSetting() {
                                             className="form-control"
                                             id="contact"
                                             placeholder="no#"
-                                            value={state.auth.user.phone_no}
+                                            defaultValue={state.auth.user.phone_no}
                                         />
                                     </div>
                                     <div className="form-group col-md-5">
@@ -93,20 +93,7 @@ export default function ProfileSetting() {
                                             className="form-control"
                                             id="address"
                                             placeholder="address"
-                                            value={(state.auth.user.address) ? "" : state.auth.user.address}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="form-row pt-4 pl-5">
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="inputsender">Email</label>
-                                        <input
-                                            type="email"
-                                            className="form-control"
-                                            id="email"
-                                            placeholder="@gmail.com"
-                                            value={state.auth.user.email}
+                                            defaultValue={(state.auth.user.address) ? "" : state.auth.user.address}
                                         />
                                     </div>
                                     <div className="form-group col-md-4">

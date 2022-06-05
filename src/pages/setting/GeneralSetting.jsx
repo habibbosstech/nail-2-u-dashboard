@@ -45,7 +45,7 @@ export default function GeneralSetting() {
                                             className="form-control "
                                             id="PayableAmount"
                                             placeholder="tinafox@gmail.com"
-                                            value={state.email}
+                                            defaultValue={state.email}
                                             {...register("email", {required: true, maxLength: 20})}
                                         />
                                     </div>
