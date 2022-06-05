@@ -16,4 +16,5 @@ export const SET_ARTIST_ID = "SET_ARTIST_ID";
 
 //settings
 export const GENERAL_SETTING = "GENERAL_SETTING";
+export const UPDATE_SETTING = "UPDATE_SETTING";
 

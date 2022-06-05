@@ -1,5 +1,5 @@
 const loginReducer = (state = "", action) => {
-
+    console.log(action.settings)
     switch (action.type) {
 
         case "SUCCESS_LOGIN":
@@ -7,6 +7,7 @@ const loginReducer = (state = "", action) => {
                 ...state,
                 isAuthenticated: true,
                 user: action.user,
+                settings: action.setting,
                 token: action.token,
                 errors: {},
             }
@@ -16,6 +17,12 @@ const loginReducer = (state = "", action) => {
                 ...state,
                 isAuthenticated: false,
                 errors: action.errors,
+            }
+
+        case "UPDATE_SETTING":
+            return {
+                ...state,
+                settings: action.settings,
             }
 
         default:

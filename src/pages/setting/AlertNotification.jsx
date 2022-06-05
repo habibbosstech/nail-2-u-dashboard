@@ -1,19 +1,16 @@
 import {alertNotification} from "../../redux/action/settings";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
 
 export default function AlertNotification() {
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-
+    const settings = state.auth.settings;
     const onSubmit = (n, v) => {
 
         dispatch(alertNotification({
             key: n, value: (v) ? 1 : 0
-        })).then((r) => {
-            console.log(r)
-        });
+        }))
     }
 
     return (<div>
@@ -30,7 +27,7 @@ export default function AlertNotification() {
                                 <input
                                     type="checkbox"
                                     className="switch"
-                                    defaultChecked="false"
+                                    defaultChecked={settings.dashboard_notification}
                                     name="dashboard_notification"
                                     onChange={(e) => {
                                         onSubmit(e.target.name, e.target.checked)
@@ -43,6 +40,7 @@ export default function AlertNotification() {
                             <div className="switch_box box_1">
                                 <input
                                     type="checkbox"
+                                    defaultChecked={settings.sound}
                                     className="switch"
                                     name="sound"
                                     onChange={(e) => {
@@ -59,6 +57,7 @@ export default function AlertNotification() {
                             <div className="switch_box box_1">
                                 <input
                                     type="checkbox"
+                                    defaultChecked={settings.english_usa}
                                     className="switch"
                                     name="english_usa"
                                     onChange={(e) => {
@@ -72,6 +71,7 @@ export default function AlertNotification() {
                             <div className="switch_box box_1">
                                 <input
                                     type="checkbox"
+                                    defaultChecked={settings.english_uk}
                                     className="switch"
                                     name="english_uk"
                                     onChange={(e) => {

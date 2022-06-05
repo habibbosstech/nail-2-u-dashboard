@@ -7,16 +7,19 @@ import SpinnerLoader from "../../components/loaders/Spiner";
 export default function GeneralSetting() {
 
     const dispatch = useDispatch();
-    const state = useSelector((state) => state);
+    const stateRaw = useSelector((state) => state);
+    const state = stateRaw.auth.user;
     const [submitted, setSubmitted] = useState(false);
     const {register, formState: {errors}, handleSubmit} = useForm();
 
-
     const onSubmit = (d, e) => {
         setSubmitted(true);
-        dispatch(generalSetting({email: d.email, password: d.newPassword, conform_password: d.conformPassword})).then((r) => {
+        dispatch(generalSetting({
+            email: d.email,
+            password: d.newPassword,
+            conform_password: d.conformPassword
+        })).then((r) => {
             setSubmitted(false);
-
         })
     };
 
@@ -42,7 +45,7 @@ export default function GeneralSetting() {
                                             className="form-control "
                                             id="PayableAmount"
                                             placeholder="tinafox@gmail.com"
-                                            // value={state.auth.user.email}
+                                            value={state.email}
                                             {...register("email", {required: true, maxLength: 20})}
                                         />
                                     </div>
@@ -92,7 +95,8 @@ export default function GeneralSetting() {
                                     </div>
                                 </div>
                                 <div className="form-group col-md-3">
-                                    <button className="btn ml-4 update-btn">{submitted ? <SpinnerLoader/> : "update"}</button>
+                                    <button className="btn ml-4 update-btn">{submitted ?
+                                        <SpinnerLoader/> : "update"}</button>
                                 </div>
                             </div>
                         </form>

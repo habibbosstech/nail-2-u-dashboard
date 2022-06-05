@@ -9,7 +9,7 @@ export const login = (payload) => (dispatch) => {
 
         if (res.data._metadata.httpResponseCode === 200) {
             dispatch({
-                type: SUCCESS_LOGIN, user: res.data.records.user, token: res.data.records.token,
+                type: SUCCESS_LOGIN, setting: res.data.records.setting,user: res.data.records.user, token: res.data.records.token,
             });
         } else {
             dispatch({
