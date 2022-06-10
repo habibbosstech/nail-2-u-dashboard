@@ -6,7 +6,6 @@ const artistProfileReducer = (state = "", action) => {
                 ...state,
                 artist_id: action.body.id
             }
-
         default:
             return state;
     }

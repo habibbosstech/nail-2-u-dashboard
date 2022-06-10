@@ -1,14 +1,26 @@
-import React from "react";
-import {useSelector} from "react-redux";
+import React, {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
+import {profileSetting} from "../../redux/action/settings";
+import SpinnerLoader from "../../components/loaders/Spiner";
 
 
 export default function ProfileSetting() {
 
     const state = useSelector((state) => state);
     const {register, formState: {errors}, handleSubmit} = useForm();
+    const [submitted, setSubmitted] = useState(false);
+    const dispatch = useDispatch();
 
-    const onSubmit = data => console.log(data);
+    const onSubmit = (d, e) => {
+        e.preventDefault();
+        setSubmitted(true);
+        dispatch(profileSetting({
+            username: d.userName, phone_no: d.phoneNo, address: d.address
+        })).then((r) => {
+            setSubmitted(false);
+        })
+    };
 
     return (<div>
         <div className="">
@@ -92,7 +104,13 @@ export default function ProfileSetting() {
                                         id="contact"
                                         placeholder="no#"
                                         defaultValue={state.auth.user.phone_no}
+                                        {...register("phoneNo", {required: true, maxLength: 11})}
                                     />
+                                    <div
+                                        className="validation-error">
+                                        {errors.phoneNo && errors.phoneNo.type === "required" && "Phone Number is required"}
+                                        {errors.phoneNo && errors.phoneNo.type === "maxLength" && "Max length is 11"}
+                                    </div>
                                 </div>
                                 <div className="form-group col-md-5">
                                     <label htmlFor="username">Address</label>
@@ -102,11 +120,17 @@ export default function ProfileSetting() {
                                         id="address"
                                         placeholder="address"
                                         defaultValue={(state.auth.user.address) ? "" : state.auth.user.address}
+                                        {...register("address", {required: true})}
                                     />
+                                    <div
+                                        className="validation-error">
+                                        {errors.address && errors.address.type === "required" && "Address is required"}
+                                    </div>
                                 </div>
                                 <div className="form-group col-md-4">
-                                    <input type="submit" className="btn btn-profile-update"
-                                           value="Save changes"/>
+                                    <button type="submit" className="btn btn-profile-update">
+                                        {submitted ? <SpinnerLoader/> : "Save changes"}
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -1,8 +1,8 @@
-const loginReducer = (state = "", action) => {
-    console.log(action.settings)
+const adminReducer = (state = "", action) => {
+
     switch (action.type) {
 
-        case "SUCCESS_LOGIN":
+        case "SUCCESS_LOGINS":
             return {
                 ...state,
                 isAuthenticated: true,
@@ -12,23 +12,10 @@ const loginReducer = (state = "", action) => {
                 errors: {},
             }
 
-        case "INVALID_CREDENTIALS":
-            return {
-                ...state,
-                isAuthenticated: false,
-                errors: action.errors,
-            }
-
-        case "UPDATE_SETTING":
-            return {
-                ...state,
-                settings: action.settings,
-            }
-
         default:
             return state;
     }
 
 }
 
-export default loginReducer;
+export default adminReducer;

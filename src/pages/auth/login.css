@@ -16,12 +16,25 @@
     font-weight: 600;
     font-size: 12.3845px;
     line-height: 19px;
-    padding:12px 0px 12px 0px;
+    padding: 12px 0px 12px 0px;
     width: 100%;
 }
-.dPadding{
+
+.btn-model {
+    background: #404040;
+    border-radius: 4.9538px;
+    color: white;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12.3845px;
+    line-height: 19px;
+    padding: 8px;
+}
+
+.dPadding {
     margin-top: 2.0em;
 }
+
 .center {
     display: flex;
     justify-content: center;
