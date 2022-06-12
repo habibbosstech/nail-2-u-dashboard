@@ -4,6 +4,9 @@
   "homepage": "https://nails2u.wyndham-vab.com/dashboard",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.1.1",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
     "@material-ui/core": "^4.11.4",
     "@material-ui/data-grid": "^4.0.0-alpha.29",
     "@material-ui/icons": "^4.11.2",
@@ -16,6 +19,7 @@
     "chart.js": "^3.5.1",
     "dotenv": "^16.0.0",
     "history": "^4.10.1",
+    "mui-datatables": "^4.2.2",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",

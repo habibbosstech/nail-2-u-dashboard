@@ -1,4 +1,4 @@
-import {Get, SetHeader} from "../api";
+import {Get, Post, SetHeader} from "../api";
 import AlertMessage from "../../components/alerts";
 
 export const getAllAdminRaw = () => (dispatch) => {
@@ -6,7 +6,19 @@ export const getAllAdminRaw = () => (dispatch) => {
     return Get('/admins/all').then(res => {
 
         if (res.data._metadata.httpResponseCode === 200) {
-            AlertMessage('success', res.data._metadata.message);
+            return res;
+        } else {
+            AlertMessage('error', res.data._metadata.message);
+        }
+    })
+}
+
+export const createAdmin = (payload) => (dispatch) => {
+    SetHeader();
+    console.log(payload)
+    return Post('/admins/add', payload).then(res => {
+
+        if (res.data._metadata.httpResponseCode === 200) {
             return res;
         } else {
             AlertMessage('error', res.data._metadata.message);

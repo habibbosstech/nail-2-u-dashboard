@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {store} from "../store";
+import {handleSessionEnd} from "../../components/middleware";
 
 const APIServices = 'http://127.0.0.1:8000/api';
 
@@ -12,19 +13,15 @@ export const Post = (r, p) => {
     return new Promise(resolve => {
 
         axios.post(APIServices + r, p).then(res => {
-            if (res.data._metadata.httpResponseCode === 401)
-                resolve(res);
-            else
-                resolve(res)
+            (res.data._metadata.httpResponseCode === 401) ? handleSessionEnd() : resolve(res)
         })
     })
 }
 
 export function Get(r) {
     return new Promise(resolve => {
-        axios.get(APIServices + r).then(data => {
-            resolve(data);
-        }).catch(error => {
+        axios.get(APIServices + r).then(res => {
+            (res.data._metadata.httpResponseCode === 401) ? handleSessionEnd() : resolve(res)
         })
     })
 }

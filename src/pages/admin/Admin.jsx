@@ -1,93 +1,71 @@
-import {Link} from "react-router-dom";
 import Search from "../../components/home/search/search";
 import "./admin.css";
 import React, {useEffect, useState} from "react";
 import {Modal} from "react-bootstrap";
-import ReactDataTable from 'react-datatable-with-bootstrap'
 import {useDispatch} from "react-redux";
-import {getAllAdminRaw} from "../../redux/action/admin";
-import {getAllArtist} from "../../redux/action/artists";
+import {createAdmin, getAllAdminRaw} from "../../redux/action/admin";
+import MUIDataTable from "mui-datatables"
+import SpinnerLoader from "../../components/loaders/Spiner";
+import {useForm} from "react-hook-form";
 
 export default function Admin() {
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
-    const [response, setResponse] = useState("");
+    const [data, setData] = useState([]);
     const [adminLoader, setAdminLoader] = useState('');
-    const [apiData, setApiData] = useState({
-        'pageNate': [0, 10], 'totalTableData': 12, 'data': []
-    });
+    const [createAdminLoader, setCreateAdminLoader] = useState('');
+    const {register, formState: {errors}, handleSubmit} = useForm();
+    const columns = [{name: "id", label: "ID", options: {filter: true, sort: true,}}, {
+        name: "username",
+        label: "Name",
+        options: {filter: true, sort: true,}
+    }, {name: "email", label: "Email", options: {filter: true, sort: true,}}, {
+        name: "phone_no",
+        label: "Phone no#",
+        options: {filter: true, sort: true,}
+    }, {
+        label: "Status", name: "status", options: {
+            filter: true, customBodyRender: (value, tableMeta, updateValue) => {
+                return (value == 1) ? <div className="admin-status">
+                    <div className="admin-active"></div>
+                </div> : <div className="admin-status">
+                    <div className="admin-offline"></div>
+                </div>
+            }
+        }
+    }, {
+        label: "Actions", name: "id", options: {
+            filter: true, customBodyRender: (value, tableMeta, updateValue) => {
+                return <span className="cursor-active" style={{color: '#1890ff'}}>view Detail</span>
+            }, setCellProps: () => ({
+                style: {
+                    // whiteSpace: "nowrap",
+                    // position: "sticky",
+                    // left: 0,
+                    // background: "white",
+                    // zIndex: 100,
+                    // border: "1px solid rgba(224,224,224,1)",
+                }
+            }), setCellHeaderProps: () => ({
+                style: {
+                    cursor: 'pointer'
+                }
+            })
+        }
+    }];
+    const options = {
+        textLabels: {
+            body: {
+                noMatch: adminLoader ? <SpinnerLoader/> : 'Sorry, there is no matching data to display',
+            },
+        }, //customToolbar: () => (
+        // <button className="btn-add-artist" onClick={handleModal}>
+        //     <i className="fa fa-plus" aria-hidden="true"></i>
+        //     <span>Add new Admin</span>
+        // </button>
+        //),
+    };
 
-    const dataTablesOptions = {
-        'tableOptions': {
-            'table_title': 'Hello', 'className': 'table table-hover'
-        }, 'colums': [
-            {
-                'column_properties': {
-                    'name': 'id', 'title': 'Id', 'allowSort': false
-                }, 'text': [{
-                    'name': 'id', 'show': true,
-                }]
-            },
-            {
-                'column_properties': {
-                    'name': 'username', 'title': 'Username', 'allowSort': false
-                }, 'text': [{
-                    'name': 'username', 'show': true,
-                }]
-            },
-            {
-                'column_properties': {
-                    'name': 'phone_no', 'title': 'Contact No', 'allowSort': false
-                }, 'text': [{
-                    'name': 'phone_no', 'show': true,
-                }]
-            },
-            {
-                'column_properties': {
-                    'name': 'email', 'title': 'Email', 'allowSort': false
-                }, 'text': [{
-                    'name': 'email', 'show': true,
-                }]
-            },
-            {
-                'column_properties': {
-                    'name': 'id', 'title': 'Role', 'allowSort': false
-                }, 'text': [{
-                    'name': 'id', 'show': true,
-                }]
-            },
-            {
-                'column_properties': {
-                    'name': 'id', 'title': 'Status', 'allowSort': false
-                },'fa_icon':
-                    [
-                        {
-                            'show':  true,
-                            'className':  'fa fa-free-code-camp'
-                        },
-                        {
-                            'show':  true,
-                            'className':  'fa fa-trash',
-                            'extra':
-                                {
-                                    'depend_from_this_field':  'extra_icon',
-                                    'conditional':  (1==3) ? false :true
-                                }
-                        }
-            ]
-            },
-            {
-                'column_properties': {
-                    'name': 'id', 'title': 'Actions', 'allowSort': false
-                }, 'button': [{
-                    'actionType': 'preview',
-                    'show': true,
-                    'title': 'view more details',
-                    'passValue': 'id',
-                    'className': 'btn btn-outline-success btn-sm',
-                },]
-            },]
-    }
 
     useEffect(() => {
         getAllAdmins();
@@ -98,70 +76,104 @@ export default function Admin() {
     }
 
     const getAllAdmins = () => {
+        setAdminLoader(true);
         dispatch(getAllAdminRaw()).then((res) => {
-            setApiData({
-                'pageNate': [0, 10], 'totalTableData': res.data.records.total, 'data': res.data.records.data
-            })
+            setAdminLoader(false)
+            setData(res.data.records.data);
         });
     }
 
-    const dataTableBtnAction = (id, actionType, e) => {
-        if (actionType === 'preview') {
-            alert(id)
-        }
+    const onSubmit = (d, e) => {
+        e.preventDefault();
+        // setCreateAdminLoader(true);
+        // dispatch(createAdmin({
+        //     username: d.username,
+        //     email: d.email,
+        //     password: d.password,
+        //     phone_no: d.phone_no
+        // })).then(() => {
+        //     setCreateAdminLoader(false);
+        //     handleModal();
+        //     getAllAdmins();
+        // });
     }
 
-    const dataTableOnChange = (state) => {
-        console.log('Change States from DataTable: ', state.apiData)
-    }
 
     return (<div className="admin">
-        <ReactDataTable dataTablesOptions={dataTablesOptions}
-                        dataTableBtnAction={dataTableBtnAction}
-                        dataTableOnChange={dataTableOnChange}
-                        dataTableData={apiData}
-        />
         <div>
             <Modal show={show} onHide={handleModal}>
                 <Modal.Header closeButton><b>Add Admin</b></Modal.Header>
-                <Modal.Body>
-                    <div className="form-group dPadding">
-                        <label style={{fontWeight: "bolder"}}>Username</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter username"/>
-                    </div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Modal.Body>
+                        <div className="form-group dPadding">
+                            <label style={{fontWeight: "bolder"}}>Username</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter username"
+                                {...register("username", {required: true, maxLength: 20})}
+                            />
+                            <div
+                                className="validation-error">
+                                {errors.username && errors.username.type === "required" && "Username is required"}
+                                {errors.username && errors.username.type === "maxLength" && "Max length is 20"}
+                            </div>
+                        </div>
 
-                    <div className="form-group dPadding">
-                        <label style={{fontWeight: "bolder"}}>Email address</label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            placeholder="Enter email"/>
-                    </div>
+                        <div className="form-group dPadding">
+                            <label style={{fontWeight: "bolder"}}>Email address</label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                placeholder="Enter email"
+                                {...register("email", {required: true, maxLength: 20})}
+                            />
+                            <div
+                                className="validation-error">
+                                {errors.email && errors.email.type === "required" && "Email is required"}
+                                {errors.email && errors.email.type === "maxLength" && "Max length is 20"}
+                            </div>
+                        </div>
 
-                    <div className="form-group dPadding">
-                        <label style={{fontWeight: "bolder"}}>Email address</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter password"/>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button className="btn btn-model" onClick={handleModal}>Close</button>
-                    <button className="btn btn-model" onClick={handleModal}>Save</button>
-                </Modal.Footer>
+                        <div className="form-group dPadding">
+                            <label style={{fontWeight: "bolder"}}>Password address</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter password"
+                                {...register("password", {required: true, maxLength: 20})}
+                            />
+                            <div
+                                className="validation-error">
+                                {errors.password && errors.password.type === "required" && "Password is required"}
+                                {errors.password && errors.password.type === "maxLength" && "Max length is 20"}
+                            </div>
+                        </div>
+
+                        <div className="form-group dPadding">
+                            <label style={{fontWeight: "bolder"}}>Phone Number</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter phone no#"
+                                {...register("phone_no", {required: true, maxLength: 20})}
+                            />
+                            <div
+                                className="validation-error">
+                                {errors.phone_no && errors.phone_no.type === "required" && "Phone no is required"}
+                                {errors.phone_no && errors.phone_no.type === "maxLength" && "Max length is 20"}
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button className="btn btn-model" onClick={handleModal}>Close</button>
+                        <button type="submit" className="btn btn-model">Save</button>
+                    </Modal.Footer>
+                </form>
             </Modal>
         </div>
         <Search/>
-        <span style={{color: "#7A7A7A"}} className="pl-1">
-        users/artists
-      </span>
-        {/* card */}
         <div className="card card-outline-secondary mt-2 ">
-            {/* heading */}
             <div
                 className="card-header"
                 style={{
@@ -174,91 +186,14 @@ export default function Admin() {
                     <span>Add new Admin</span>
                 </button>
             </div>
-            {/* body */}
-            <div className="artist-card-body pl-4">
-                {/* admin table */}
-                {/* table for artish detail*/}
-                <table className="table table-striped">
-                    <thead>
-                    {/* table list */}
-                    <tr>
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Contact No</th>
-                        <th>Email Address</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {/* table body item1 start */}
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>
-                            <div className="artist-img">
-                                <img src="" alt=""/>
-                                <span>Wade Warren</span>
-                            </div>
-                        </td>
-                        <td>02552215</td>
-                        <td>@gmail.com</td>
-                        <td>Owner</td>
-                        <td className="admin-status">
-                            Active
-                            <div className="admin-active"></div>
-                        </td>
-                        <td>
-                            <Link to="/dashboard/admin/admin-profile">view Detail</Link>
-                        </td>
-                    </tr>
-                    {/* table body item1 end */}
-                    {/* table body item1 start */}
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>
-                            <div className="artist-img">
-                                <img src="" alt=""/>
-                                <span>Wade Warren</span>
-                            </div>
-                        </td>
-                        <td>02552215</td>
-                        <td>@gmail.com</td>
-                        <td>Admin</td>
-                        <td className="admin-status">
-                            Active
-                            <div className="admin-offline"></div>
-                        </td>
-                        {" "}
-                        <td>
-                            <Link to="/dashboard/admin/admin-profile">view Detail</Link>
-                        </td>
-                    </tr>
-                    {/* table body item1 end */}
-                    {/* table body item1 start */}
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>
-                            <div className="artist-img">
-                                <img src="" alt=""/>
-                                <span>Wade Warren</span>
-                            </div>
-                        </td>
-                        <td>02552215</td>
-                        <td>@gmail.com</td>
-                        <td>Admin</td>
-                        <td className="admin-status">
-                            Active
-                            <div className="admin-active"></div>
-                        </td>
-                        <td>
-                            <Link to="/dashboard/admin/admin-profile">view Detail</Link>
-                        </td>
-                    </tr>
-                    {/* table body item1 end */}
-                    </tbody>
-                </table>
+            <div id="yes">
+                <MUIDataTable
+                    data={data}
+                    columns={columns}
+                    options={options}
+                />
             </div>
         </div>
-    </div>);
+    </div>)
+        ;
 }

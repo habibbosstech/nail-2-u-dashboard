@@ -80,7 +80,16 @@
 /*.Toastify__toast > button > svg {*/
 /*    display: none;*/
 /*}*/
-.validation-error{
-    color:red;
+.validation-error {
+    color: red;
     font-size: 13px;
+}
+.box-shadow-non{
+    box-shadow: none !important;
+}
+button{
+    cursor: pointer;
+}
+.cursor-active{
+    cursor: pointer;
 }

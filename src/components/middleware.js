@@ -2,7 +2,11 @@ import React from "react";
 import {Redirect, Route} from "react-router-dom";
 import {useSelector} from "react-redux";
 
-function ProtectedRoute({component: Component, ...restOfProps}) {
+export function handleSessionEnd() {
+    window.location.assign('http://localhost:4000/login')
+}
+
+export function ProtectedRoute({component: Component, ...restOfProps}) {
 
     const state = useSelector((state) => state);
     const isAuthenticated = state.auth.isAuthenticated;
@@ -16,5 +20,3 @@ function ProtectedRoute({component: Component, ...restOfProps}) {
         />
     );
 }
-
-export default ProtectedRoute;
