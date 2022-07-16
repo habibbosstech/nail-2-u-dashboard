@@ -6,7 +6,7 @@ export const UserSecondInfo = () => {
   return (
     <div className="userSecondInfo">
       <div>
-        <img src={arrowBendIcon} alt="alla" />
+        <img src={arrowBendIcon} alt="" />
       </div>
       <div>
         <table className="table table-striped">
